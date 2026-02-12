@@ -24,21 +24,6 @@ This project demonstrates:
 
 ------------------------------------------------------------------------
 
-## 📁 Project Structure
-
-flask_project/ 
-│ 
-├── app.py 
-├── data.json 
-├── .env 
-├── .gitignore 
-├──requirements.txt 
-└── templates/ 
-   ├── form.html 
-   └── success.html
-
-------------------------------------------------------------------------
-
 
 pip install flask pymongo dnspython python-dotenv
 
