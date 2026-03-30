@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  # ─────────────────────────────────────────────
+  # Flask Backend Service
+  # ─────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flask_backend
+    image: your-dockerhub-username/flask-backend:latest
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ─────────────────────────────────────────────
+  # Node.js / Express Frontend Service
+  # ─────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: express_frontend
+    image: your-dockerhub-username/express-frontend:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - FLASK_BACKEND_URL=http://backend:5000
+      - NODE_ENV=production
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+# ─────────────────────────────────────────────
+# Shared Network
+# ─────────────────────────────────────────────
+networks:
+  app_network:
+    driver: bridge
+    name: flask_node_network

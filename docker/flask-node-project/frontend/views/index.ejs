@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: #2a2a38;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --accent3: #43e97b;
+      --text: #e8e8f0;
+      --muted: #7070a0;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(255,101,132,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #e8e8f0 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      color: var(--muted);
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    select option { background: #111118; }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 0.3rem;
+    }
+
+    .radio-group label, .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text);
+      cursor: pointer;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.9rem;
+      transition: all 0.15s;
+    }
+
+    .radio-group input[type="radio"],
+    .checkbox-group input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--accent);
+    }
+
+    .radio-group label:hover,
+    .checkbox-group label:hover {
+      border-color: var(--accent);
+      background: rgba(108,99,255,0.08);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .section-divider::before, .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* Result card */
+    .result-card {
+      margin-top: 1.5rem;
+      background: rgba(67,233,123,0.07);
+      border: 1px solid rgba(67,233,123,0.3);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .result-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent3);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.5rem;
+    }
+
+    .result-item {
+      font-size: 0.88rem;
+    }
+
+    .result-item span:first-child {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .result-item span:last-child {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .result-msg {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      background: rgba(108,99,255,0.1);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    /* Error */
+    .error-card {
+      margin-top: 1.5rem;
+      background: rgba(255,101,132,0.07);
+      border: 1px solid rgba(255,101,132,0.3);
+      border-radius: 16px;
+      padding: 1.2rem 1.5rem;
+      color: var(--accent2);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .footer-note span { color: var(--accent); }
+
+    @media (max-width: 540px) {
+      .form-row { grid-template-columns: 1fr; }
+      .card { padding: 1.5rem; }
+      .result-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">Node.js + Flask Integration</div>
+    <h1>Student Registration</h1>
+    <p>Fill in the form below — it gets processed by the Flask backend.</p>
+  </header>
+
+  <div class="card">
+    <form action="/submit" method="POST">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="John Doe"
+            value="<%= formData ? formData.name || '' : '' %>" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="john@example.com"
+            value="<%= formData ? formData.email || '' : '' %>" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" placeholder="21" min="1" max="120"
+            value="<%= formData ? formData.age || '' : '' %>" required />
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject" required>
+            <option value="" disabled <%= !formData || !formData.subject ? 'selected' : '' %>>Select a subject</option>
+            <option value="Computer Science" <%= formData && formData.subject === 'Computer Science' ? 'selected' : '' %>>Computer Science</option>
+            <option value="Mathematics" <%= formData && formData.subject === 'Mathematics' ? 'selected' : '' %>>Mathematics</option>
+            <option value="Physics" <%= formData && formData.subject === 'Physics' ? 'selected' : '' %>>Physics</option>
+            <option value="Chemistry" <%= formData && formData.subject === 'Chemistry' ? 'selected' : '' %>>Chemistry</option>
+            <option value="Biology" <%= formData && formData.subject === 'Biology' ? 'selected' : '' %>>Biology</option>
+            <option value="Economics" <%= formData && formData.subject === 'Economics' ? 'selected' : '' %>>Economics</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-divider">Personal Info</div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender" value="Male" <%= formData && formData.gender === 'Male' ? 'checked' : '' %> required /> Male</label>
+          <label><input type="radio" name="gender" value="Female" <%= formData && formData.gender === 'Female' ? 'checked' : '' %> /> Female</label>
+          <label><input type="radio" name="gender" value="Non-binary" <%= formData && formData.gender === 'Non-binary' ? 'checked' : '' %> /> Non-binary</label>
+          <label><input type="radio" name="gender" value="Prefer not to say" <%= formData && formData.gender === 'Prefer not to say' ? 'checked' : '' %> /> Prefer not to say</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Areas of Interest</label>
+        <div class="checkbox-group">
+          <% const interests = ['Web Development', 'AI / ML', 'Data Science', 'Cybersecurity', 'Cloud Computing']; %>
+          <% interests.forEach(function(i) { %>
+            <label>
+              <input type="checkbox" name="interest" value="<%= i %>"
+                <%= formData && Array.isArray(formData.interest) && formData.interest.includes(i) ? 'checked' : (formData && formData.interest === i ? 'checked' : '') %> />
+              <%= i %>
+            </label>
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message / Notes</label>
+        <textarea id="message" name="message" placeholder="Anything you'd like to share..."><%= formData ? formData.message || '' : '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Registration →</button>
+    </form>
+
+    <% if (error) { %>
+    <div class="error-card">
+      ⚠️ <strong>Error:</strong>&nbsp;<%= error %>
+    </div>
+    <% } %>
+
+    <% if (result) { %>
+    <div class="result-card">
+      <h3>✅ Registration Successful</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <span>Name</span><span><%= result.data.name %></span>
+        </div>
+        <div class="result-item">
+          <span>Email</span><span><%= result.data.email %></span>
+        </div>
+        <div class="result-item">
+          <span>Age</span><span><%= result.data.age %></span>
+        </div>
+        <div class="result-item">
+          <span>Subject</span><span><%= result.data.subject %></span>
+        </div>
+        <div class="result-item">
+          <span>Gender</span><span><%= result.data.gender %></span>
+        </div>
+        <div class="result-item">
+          <span>Interests</span><span><%= result.data.interest %></span>
+        </div>
+      </div>
+      <% if (result.message) { %>
+      <div class="result-msg"><%= result.message %></div>
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+
+  <p class="footer-note">Frontend: <span>Node.js + Express</span> &nbsp;|&nbsp; Backend: <span>Python Flask</span> &nbsp;|&nbsp; Containerized with <span>Docker</span></p>
+</div>
+</body>
+</html>
