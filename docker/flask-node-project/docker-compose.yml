@@ -1,15 +1,12 @@
 version: "3.9"
 
 services:
-  # ─────────────────────────────────────────────
-  # Flask Backend Service
-  # ─────────────────────────────────────────────
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: flask_backend
-    image: your-dockerhub-username/flask-backend:latest
+    image: yusufraza036/flask-backend:latest
     restart: unless-stopped
     ports:
       - "5000:5000"
@@ -24,15 +21,12 @@ services:
       retries: 3
       start_period: 10s
 
-  # ─────────────────────────────────────────────
-  # Node.js / Express Frontend Service
-  # ─────────────────────────────────────────────
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: express_frontend
-    image: your-dockerhub-username/express-frontend:latest
+    image: yusufraza036/express-frontend:latest
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -51,9 +45,6 @@ services:
       retries: 3
       start_period: 15s
 
-# ─────────────────────────────────────────────
-# Shared Network
-# ─────────────────────────────────────────────
 networks:
   app_network:
     driver: bridge
